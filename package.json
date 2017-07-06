@@ -1,0 +1,11 @@
+{
+  "name": "xpressions",
+  "version": "1.0.0",
+  "description": "xpressions website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gourav Bhardwaj",
+  "license": "ISC"
+}
