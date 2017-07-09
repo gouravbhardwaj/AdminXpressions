@@ -55,7 +55,7 @@ var getProductsList = function(req,res){
                     console.log(err);
                 } else {
                     ///console.log(result);
-					var productArray;
+					var productArray = new Array();
 					for(var i=0;i < result.rows.length; i++){
 						 result.rows[i].Picture = cloudinary.image(result.rows[i].Picture);
 						 productArray.push(result.rows[i]);

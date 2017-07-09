@@ -342,7 +342,7 @@
 			<li class="span3">
 				<div class="product-box">
 					<span class="sale_tag"></span>
-					<p><a href="product_detail.html"><img src="themes/images/ladies/1.jpg" alt="" /></a></p>
+					<p><a href="product_detail.html">{{productImage}}</a></p>
 					<a href="product_detail.html" class="title">{{productName}}</a><br/>
 					<a href="products.html" class="category">{{productName}}</a>
 					<p class="price">{{unitPrice}}</p>
@@ -426,7 +426,8 @@
 					      var template = $('#productCurousel').html();
 						  
 						  dynamic += template.replace(/{{productName}}/g,Products.latest[productCount].ProductName).
-						  replace(/{{unitPrice}}/g,Products.latest[productCount].UnitPrice);
+						  replace(/{{unitPrice}}/g,Products.latest[productCount].UnitPrice).
+						  replace(/{{productImage}}/g,Products.latest[productCount].Picture);
 					 
 						  productCount++;
 						}
