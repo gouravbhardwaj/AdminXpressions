@@ -1,8 +1,16 @@
 var express = require('express');
 var app = express();
 
+var cloudinary = require('cloudinary');
+
 var pg = require('pg');
 pg.defaults.ssl = true;
+
+cloudinary.config({ 
+  cloud_name: 'hrmqah2hd', 
+  api_key: '595616719544321', 
+  api_secret: 'hxdXfpQSRcUlIechhkY944IAVBM' 
+});
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
@@ -47,8 +55,13 @@ var getProductsList = function(req,res){
                     console.log(err);
                 } else {
                     ///console.log(result);
+					var productArray;
+					for(var i=0;i < result.rows.length; i++){
+						 result.rows[i].Picture = cloudinary.image(result.rows[i].Picture);
+						 productArray.push(result.rows[i]);
+					}
 					
-					res.send(result.rows);
+					res.send(productArray);
                 }
 
             });
