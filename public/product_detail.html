@@ -83,8 +83,10 @@
 			<section class="main-content">				
 				<div class="row">						
 					<div class="span9">
-						<div class="row">
-							<div class="span4">
+					
+						<!--Product  Section -->
+						<div class="row" id="productDetail">
+							<!-- <div class="span4">
 								<a href="themes/images/ladies/1.jpg" class="thumbnail" data-fancybox-group="group1" title="Description 1"><img alt="" src="themes/images/ladies/1.jpg"></a>												
 								<ul class="thumbnails small">								
 									<li class="span1">
@@ -124,10 +126,14 @@
 									<input type="text" class="span1" placeholder="1">
 									<button class="btn btn-inverse" type="submit">Add to cart</button>
 								</form>
-							</div>							
+							</div>	
+							-->							
 						</div>
+						
+						<!--Product Description Section -->
 						<div class="row">
-							<div class="span9">
+							<div class="span9" id="productDescription">
+								<!--
 								<ul class="nav nav-tabs" id="myTab">
 									<li class="active"><a href="#home">Description</a></li>
 									<li class=""><a href="#profile">Additional Information</a></li>
@@ -148,7 +154,8 @@
 											</tbody>
 										</table>
 									</div>
-								</div>							
+								</div>	
+								-->								
 							</div>						
 							<div class="span9">	
 								<br>
@@ -159,7 +166,9 @@
 									</span>
 								</h4>
 								<div id="myCarousel-1" class="carousel slide">
-									<div class="carousel-inner">
+									<div class="carousel-inner" id="relatedProducts">
+									
+									<!--
 										<div class="active item">
 											<ul class="thumbnails listing-products">
 												<li class="span3">
@@ -190,36 +199,8 @@
 												</li>												
 											</ul>
 										</div>
-										<div class="item">
-											<ul class="thumbnails listing-products">
-												<li class="span3">
-													<div class="product-box">
-														<span class="sale_tag"></span>												
-														<a href="product_detail.html"><img alt="" src="themes/images/ladies/1.jpg"></a><br/>
-														<a href="product_detail.html" class="title">Fusce id molestie massa</a><br/>
-														<a href="#" class="category">Phasellus consequat</a>
-														<p class="price">$341</p>
-													</div>
-												</li>       
-												<li class="span3">
-													<div class="product-box">												
-														<a href="product_detail.html"><img alt="" src="themes/images/ladies/2.jpg"></a><br/>
-														<a href="product_detail.html">Praesent tempor sem</a><br/>
-														<a href="#" class="category">Erat gravida</a>
-														<p class="price">$28</p>
-													</div>
-												</li>
-												<li class="span3">
-													<div class="product-box">
-														<span class="sale_tag"></span>												
-														<a href="product_detail.html"><img alt="" src="themes/images/ladies/3.jpg"></a><br/>
-														<a href="product_detail.html" class="title">Wuam ultrices rutrum</a><br/>
-														<a href="#" class="category">Suspendisse aliquet</a>
-														<p class="price">$341</p>
-													</div>
-												</li>
-											</ul>
-										</div>
+										-->
+										
 									</div>
 								</div>
 							</div>
@@ -236,14 +217,7 @@
 								<li><a href="products.html">Phasellus ultricies</a></li>
 								<li><a href="products.html">Donec laoreet dui</a></li>
 							</ul>
-							<br/>
-							<ul class="nav nav-list below">
-								<li class="nav-header">MANUFACTURES</li>
-								<li><a href="products.html">Adidas</a></li>
-								<li><a href="products.html">Nike</a></li>
-								<li><a href="products.html">Dunlop</a></li>
-								<li><a href="products.html">Yamaha</a></li>
-							</ul>
+							
 						</div>
 						<div class="block">
 							<h4 class="title">
@@ -347,15 +321,136 @@
 			</section>
 		</div>
 		<script src="themes/js/common.js"></script>
+		
+		
+		<!-- Product Curousel Template -->
+		<script type="customTemplate" id="productCurousel">
+			<li class="span3">
+				<div class="product-box">												
+					<a href="product_detail.html?pId={{productId}}&catId={{categoryId}}">{{productImage}}</a><br/>
+					<a href="product_detail.html?pId={{productId}}&catId={{categoryId}}" class="title">{{productName}}</a><br/>
+					<a href="#" class="category">{{productName}}</a>
+					<div class="price" style="margin-left: 44%;"><div style="float:left">&#8377</div><div class="amount" style="width:33px;font-weight: bold;font-size: small;">{{unitPrice}}</div></div>
+				</div>
+			</li>	
+		</script>
+		
+		<!-- Latest Product Template -->
+		<script type="customTemplate" id="currouselTemplate">
+			<div class="{{activeClass}} item">
+				<ul class="thumbnails listing-products">		
+					{{productCurousel}}
+				</ul>
+			</div>
+		</script>
+		
+		<!-- Latest Product Template -->
+		<script type="customTemplate" id="descriptionTemplate">
+			<ul class="nav nav-tabs" id="myTab">
+				<li class="active"><a href="#home">Description</a></li>
+				<li class=""><a href="#profile">Additional Information</a></li>
+			</ul>							 
+			<div class="tab-content">
+				<div class="tab-pane active" id="home">{{ProductDescription}}</div>
+				<div class="tab-pane" id="profile">
+					<table class="table table-striped shop_attributes">	
+						<tbody>
+							<tr class="">
+								<th>Size</th>
+								<td>Large, Medium, Small, X-Large</td>
+							</tr>		
+							<tr class="alt">
+								<th>Colour</th>
+								<td>Orange, Yellow</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>	
+		</script>
+		
+		
+		<!-- Product Thumbnail Template -->
+		<script type="customTemplate" id="productThumbnailTemplate">
+		<li class="span1">
+			<a href="{{imageOnly}}" class="thumbnail" data-fancybox-group="group1" title="Description 2">{{thumbnailImage}}</a>
+		</li>
+		</script>
+		
+		<!-- Product Detail Template -->
+		<script type="customTemplate" id="productDetailTemplate">
+		<div class="span4">
+								<a href="{{imageOnly}}" class="thumbnail" data-fancybox-group="group1" title="Description 1">{{productImage}}</a>												
+								<ul class="thumbnails small" id="productImageThumbnail">								
+									<li class="span1">
+										<a href="themes/images/ladies/2.jpg" class="thumbnail" data-fancybox-group="group1" title="Description 2"><img src="themes/images/ladies/2.jpg" alt=""></a>
+									</li>								
+									<li class="span1">
+										<a href="themes/images/ladies/3.jpg" class="thumbnail" data-fancybox-group="group1" title="Description 3"><img src="themes/images/ladies/3.jpg" alt=""></a>
+									</li>													
+									<li class="span1">
+										<a href="themes/images/ladies/4.jpg" class="thumbnail" data-fancybox-group="group1" title="Description 4"><img src="themes/images/ladies/4.jpg" alt=""></a>
+									</li>
+									<li class="span1">
+										<a href="themes/images/ladies/5.jpg" class="thumbnail" data-fancybox-group="group1" title="Description 5"><img src="themes/images/ladies/5.jpg" alt=""></a>
+									</li>
+								</ul>
+							</div>
+							<div class="span5">
+								<address>
+									<strong>Category:</strong> <span>Mug</span><br>
+									<strong>Product Code:</strong> <span>{{productCode}}</span><br>
+									<strong>Reward Points:</strong> <span>0</span><br>
+									<strong>Availability:</strong> <span>{{isAvailable}}</span><br>								
+								</address>									
+								<h4><strong>Price: {{unitPrice}}</strong></h4>
+							</div>
+							<div class="span5">
+								<form class="form-inline">
+									<label class="checkbox">
+										<input type="checkbox" value=""> Option one is this and that
+									</label>
+									<br/>
+									<label class="checkbox">
+									  <input type="checkbox" value=""> Be sure to include why it's great
+									</label>
+									<p>&nbsp;</p>
+									<label>Qty:</label>
+									<input type="text" class="span1" placeholder="1">
+									<button class="btn btn-inverse" type="submit">Add to cart</button>
+								</form>
+							</div>	
+		</script>					
+		
 		<script>
-			$(function () {
+			var urlParams;
+			
+			var updateUrlParams = function() {
+				console.log('@@@@ inside the update url param');
+				var match,
+					pl = /\+/g, // Regex for replacing addition symbol with a space
+					search = /([^&=]+)=?([^&]*)/g,
+					decode = function(s) {
+						return decodeURIComponent(s.replace(pl, " "));
+					},
+					query = window.location.search.substring(1);
+
+				urlParams = {};
+				while (match = search.exec(query))
+					urlParams[decode(match[1])] = decode(match[2]);
+			}
+		
+		
+			/*$(function () {
 				$('#myTab a:first').tab('show');
 				$('#myTab a').click(function (e) {
 					e.preventDefault();
 					$(this).tab('show');
 				})
-			})
+			})*/
 			$(document).ready(function() {
+				updateUrlParams();
+				
 				$('.thumbnail').fancybox({
 					openEffect  : 'none',
 					closeEffect : 'none'
@@ -363,8 +458,140 @@
 				
 				$('#myCarousel-2').carousel({
                     interval: 2500
-                });								
+                });	
+
+				
+		        checkStage();	
+
+				
 			});
+			
+			 var assignEventHandlers = function(){
+				$('#myTab a:first').tab('show');
+				$('#myTab a').click(function (e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+			 }
+			
+			 var checkStage = function(){
+		       if(urlParams.pId != undefined && urlParams.catId != undefined){
+			      
+				  
+						$.post("/productDetails",{pId:urlParams.pId,catId:urlParams.catId},function(data, status){
+							console.log(data);
+							
+							
+							//1. products details section
+							var detailsTemplate = $('#productDetailTemplate').html();
+							var renderedHTMLDetail = '';
+							var isAvailable;
+							if(data.product.UnitsInStock==0 || data.product.UnitsInStock==null){
+							    isAvailable = 0;
+							}else{
+							    isAvailable = data.product.UnitsInStock;
+							}
+							
+							renderedHTMLDetail = detailsTemplate.replace(/{{productImage}}/g,data.product.Picture).
+							replace(/{{productCode}}/g,data.product.SKU).
+							replace(/{{isAvailable}}/g,isAvailable).
+							replace(/{{unitPrice}}/g,data.product.UnitPrice).
+							replace(/{{imageOnly}}/g,imageOnly(data.product.Picture));
+							
+							
+							$('#productDetail').html(renderedHTMLDetail);
+							//products details section ends
+							
+							//2. thumbnail image
+							var thumbnailTemplate = $('#productThumbnailTemplate').html();
+							var renderedHTMLthubnail = '';
+							
+							for(var i=0;i<4;i++){
+								renderedHTMLthubnail += thumbnailTemplate.replace(/{{imageOnly}}/g,imageOnly(data.product.Picture)).
+								replace(/{{thumbnailImage}}/g,data.product.Picture);
+							}
+							
+							
+							
+							$('#productImageThumbnail').html(renderedHTMLthubnail);
+							
+							//thumbnail image ends
+							
+							
+							
+							//3. product description section
+							var descriptionTemplate = $('#descriptionTemplate').html();
+							var renderedHTMLDescription = '';
+							
+							if(data.product.ProductDescription==null || data.product.ProductDescription == undefined){
+							   data.product.ProductDescription = 'No Description Available';
+							}
+							
+							renderedHTMLDescription += descriptionTemplate.replace(/{{ProductDescription}}/g,data.product.ProductDescription);
+							
+							$('#productDescription').html(renderedHTMLDescription);
+							//product description section ends
+							
+							
+							
+							
+							//4. related products section
+							relatedProducts(data.relatedProducts);
+							//related products section ends
+							
+							
+							assignEventHandlers();
+							
+						});//$.post
+					 
+				 
+				  
+				  }//if
+			   }//checkStage
+			   
+			   
+			   var imageOnly = function(image){
+			     return image.substring(image.indexOf('src=')+5,image.indexOf('\' />'));
+			   }
+			   
+			   var relatedProducts = function(relatedProducts){
+				//set of carousel
+				  modValue = Math.round(relatedProducts.length/4);
+				  latest2d = new Array(modValue);
+				  productCount = 0;
+				  
+				  var renderedHTML = '';
+				  
+				  for(var i=0;i<modValue;i++){
+				         latest2d[i] = new Array(4);
+					 var dynamic = '';
+					 var activeClass='';
+					 
+					 for(var j=0;j<3;j++){
+					      var template = $('#productCurousel').html();
+						  
+						  dynamic += template.replace(/{{productName}}/g,relatedProducts[productCount].ProductName).
+						  replace(/{{unitPrice}}/g,relatedProducts[productCount].UnitPrice).
+						  replace(/{{productImage}}/g,relatedProducts[productCount].Picture).
+						  replace(/{{productId}}/g,relatedProducts[productCount].ProductId).
+						  replace(/{{categoryId}}/g,relatedProducts[productCount].CategoryId);
+					 
+						  productCount++;
+						}
+						
+						if(i==0){
+						activeClass = 'active';
+						}
+						
+						var template2 = $('#currouselTemplate').html();
+						
+						renderedHTML += template2.replace(/{{productCurousel}}/g,dynamic)
+						.replace(/{{activeClass}}/g,activeClass);
+				  }
+				
+				   $('#relatedProducts').html(renderedHTML);
+				  // console.log(renderedHTML);
+				}
 		</script>
     </body>
 </html>
