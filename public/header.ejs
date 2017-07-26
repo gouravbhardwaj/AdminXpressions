@@ -16,15 +16,11 @@
 		<link href="themes/css/flexslider.css" rel="stylesheet"/>
 		<link href="themes/css/main.css" rel="stylesheet"/>
 
-		
-		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 		<!-- scripts -->
 		<script src="themes/js/jquery-1.7.2.min.js"></script>
 		<script src="bootstrap/js/bootstrap.min.js"></script>				
 		<script src="themes/js/superfish.js"></script>	
 		<script src="themes/js/jquery.scrolltotop.js"></script>
-		
-		
 		<!--[if lt IE 9]>			
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 			<script src="js/respond.min.js"></script>
@@ -41,35 +37,6 @@
 		   /*height:40px */
 		}
 		
-		.categoryIcon {
-			width: 10%;
-			margin-left: 88%;
-			padding-top: 6px;
-		}
-		
-		.categoryLabel {
-			width: 80%;
-			float: left;
-		}
-		
-		.categoryList {
-			width: 100%;
-			height: 30px;
-		}
-		
-		.categoryHover{
-			position: fixed;
-			z-index: 999;
-			width: 22%;
-			margin-left: 172px;
-			margin-top: -29px;
-			height: 256px;
-			background: white;
-		}
-
-
-
-
 		</style>
 	</head>
     <body>		
@@ -102,8 +69,6 @@
 								<ul id="allCategories">
 																	
 								</ul>
-								
-								
 							</li>															
 							<li><a href="./products.html">For Her</a></li>			
 							<li><a href="./products.html">For Him</a>
@@ -115,10 +80,9 @@
 							</li>							
 							<li><a href="./products.html">Corporate</a></li>
 							<li><a href="./products.html">Best Seller</a></li>
-							<li><a href="./products.html">Trending</a></li>
+							<li><a href="./products.html">Top Seller</a></li>
 						</ul>
 					</nav>
-					
 				</div>
 			</section>
 			<section  class="homepage-slider" id="home-slider">
@@ -139,8 +103,8 @@
 				</div>			
 			</section>
 			<section class="header_text">
-				Explore the world of Personalised Gifting and Designing with Xpressions. 
-				<br/>Give your dear ones something special and different.
+				We stand for top quality templates. Our genuine developers always optimized bootstrap commercial templates. 
+				<br/>Don't miss to use our cheap abd best bootstrap templates.
 			</section>
 			<section class="main-content">
 				<div class="row">
@@ -192,7 +156,7 @@
 									<div class="customize">			
 										<img src="themes/images/feature_img_1.png" alt="" />
 										<h4>FREE <strong>SHIPPING</strong></h4>
-										<p>* Free Delivery of Products.</p>
+										<p>Lorem Ipsum is simply dummy text of the printing and printing industry unknown printer.</p>
 									</div>
 								</div>
 							</div>
@@ -200,8 +164,8 @@
 								<div class="service">
 									<div class="support">	
 										<img src="themes/images/feature_img_3.png" alt="" />
-										<h4>ACTIVE <strong>SUPPORT</strong></h4>
-										<p>Our support team is super active and believes in providing Quality service to our Customers.</p>
+										<h4>24/7 LIVE <strong>SUPPORT</strong></h4>
+										<p>Lorem Ipsum is simply dummy text of the printing and printing industry unknown printer.</p>
 									</div>
 								</div>
 							</div>	
@@ -209,7 +173,6 @@
 					</div>				
 				</div>
 			</section>
-			<!--
 			<section class="our_client">
 				<h4 class="title"><span class="text">Manufactures</span></h4>
 				<div class="row">					
@@ -233,7 +196,6 @@
 					</div>
 				</div>
 			</section>
-			-->
 			<section id="footer-bar">
 				<div class="row">
 					<div class="span3">
@@ -257,7 +219,7 @@
 					</div>
 					<div class="span5">
 						<p class="logo"><img src="themes/images/logo.png" class="site_logo" alt=""></p>
-						<!--<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. the  Lorem Ipsum has been the industry's standard dummy text ever since the you.</p> -->
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. the  Lorem Ipsum has been the industry's standard dummy text ever since the you.</p>
 						<br/>
 						<span class="social_icons">
 							<a class="facebook" href="#">Facebook</a>
@@ -299,25 +261,8 @@
 		
 		<!-- All Categories Template -->
 		<script type="cutomTemplate" id="categoryTemplate">
-		   <li class="categoryli">
-		   			<a href="products.html?catId={{categoryId}}">
-						<div class="categoryList">
-							<div class="categoryLabel">{{categoryName}}</div>
-							<div class="categoryIcon"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-						</div>
-					</a> 
-					
-					<!-- https://bootsnipp.com/snippets/E7KEy -->
-					 <ul class="dropdown-menu">
-						<li><a href="#">Dropdown Link 4</a></li>
-					 </ul>	
-			</li>	
-		</script>
+		   <li class="categoryli"><div class="categoryImage">{{categoryImage}}</div><a href="./products.html?catId={{categoryId}}">{{categoryName}}</a></li>	
 		
-		<script type="customTemplate" id="categoryHoverBlock">
-			<div class="categoryHover">
-				here
-			</div>
 		</script>
 		
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.js"> </script>
@@ -340,9 +285,6 @@
 					
 					Products.getCategories();
 					Products.getProducts();
-					
-					
-					
 				});
 			});
 			
@@ -363,8 +305,8 @@
 							var template = $('#categoryTemplate').html();
 
 							renderedHTML += template.replace(/{{categoryName}}/g,value.CategoryName).
-							replace(/{{categoryId}}/g,value.CategoryId);
-							//replace(/{{categoryImage}}/g,value.Picture);
+							replace(/{{categoryId}}/g,value.CategoryId).
+							replace(/{{categoryImage}}/g,value.Picture);
 							 
 						});
 						
@@ -407,15 +349,12 @@
 					 for(var j=0;j<4;j++){
 					      var template = $('#productCurousel').html();
 						  
-						  if(Products.featured[productCount] != undefined){
-								dynamic += template.replace(/{{productName}}/g,Products.featured[productCount].ProductName).
-								replace(/{{unitPrice}}/g,Products.featured[productCount].UnitPrice).
-								replace(/{{productImage}}/g,Products.featured[productCount].Picture).
-								replace(/{{productId}}/g,Products.featured[productCount].ProductId).
-								replace(/{{categoryId}}/g,Products.featured[productCount].CategoryId);
-						  
-						  }
-						  
+						  dynamic += template.replace(/{{productName}}/g,Products.latest[productCount].ProductName).
+						  replace(/{{unitPrice}}/g,Products.latest[productCount].UnitPrice).
+						  replace(/{{productImage}}/g,Products.latest[productCount].Picture).
+						  replace(/{{productId}}/g,Products.latest[productCount].ProductId).
+						  replace(/{{categoryId}}/g,Products.latest[productCount].CategoryId);
+					 
 						  productCount++;
 						}
 						
@@ -448,15 +387,12 @@
 					 for(var j=0;j<4;j++){
 					      var template = $('#productCurousel').html();
 						  
-						  if(Products.latest[productCount] != undefined){
-						  
-								dynamic += template.replace(/{{productName}}/g,Products.latest[productCount].ProductName).
-								replace(/{{unitPrice}}/g,Products.latest[productCount].UnitPrice).
-								replace(/{{productImage}}/g,Products.latest[productCount].Picture).
-								replace(/{{productId}}/g,Products.latest[productCount].ProductId).
-								replace(/{{categoryId}}/g,Products.latest[productCount].CategoryId);
-						  
-						  }
+						  dynamic += template.replace(/{{productName}}/g,Products.latest[productCount].ProductName).
+						  replace(/{{unitPrice}}/g,Products.latest[productCount].UnitPrice).
+						  replace(/{{productImage}}/g,Products.latest[productCount].Picture).
+						  replace(/{{productId}}/g,Products.latest[productCount].ProductId).
+						  replace(/{{categoryId}}/g,Products.latest[productCount].CategoryId);
+					 
 						  productCount++;
 						}
 						
