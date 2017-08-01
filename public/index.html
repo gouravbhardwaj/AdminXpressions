@@ -97,14 +97,16 @@
 				<div class="navbar-inner main-menu">				
 					<a href="index.html" class="logo pull-left"><img src="themes/images/logo.png" class="site_logo" alt=""></a>
 					<nav id="menu" class="pull-right">
-						<ul>
-							<li><a href="./products.html">All Gifts</a>					
-								<ul id="allCategories">
+						<ul >
+							<li class="dropdown">
+							    <a href="./products.html">All Gifts</a>					
+								<ul id="allCategories" class="dropdown-menu">
 																	
 								</ul>
 								
 								
-							</li>															
+							</li>	
+																					
 							<li><a href="./products.html">For Her</a></li>			
 							<li><a href="./products.html">For Him</a>
 								<ul>									
@@ -299,8 +301,8 @@
 		
 		<!-- All Categories Template -->
 		<script type="cutomTemplate" id="categoryTemplate">
-		   <li class="categoryli">
-		   			<a href="products.html?catId={{categoryId}}">
+		   <li class="categoryli dropdown dropdown-submenu">
+		   			<a href="products.html?catId={{categoryId}}" class="dropdown-toggle" data-toggle="dropdown">
 						<div class="categoryList">
 							<div class="categoryLabel">{{categoryName}}</div>
 							<div class="categoryIcon"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
