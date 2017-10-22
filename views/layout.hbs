@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    	<title>{{title}}</title>
+	    
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	    
+	    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	    <meta name="description" content="">
+	    <meta name="author" content="">
+	    <link rel="icon" href="https://v4-alpha.getbootstrap.com/favicon.ico">
+
+	    <!-- Bootstrap core CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+
+
+	    <!-- Custom styles for this template -->
+	    <link href="./Dashboard Template for Bootstrap_files/dashboard.css" rel="stylesheet">
+
+	    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+	    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	    
+
+
+	    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+  	<!-- Header -->
+  	 <nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-danger">
+      <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Xpressions</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      	<!--
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Settings</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://v4-alpha.getbootstrap.com/examples/dashboard/#">Help</a>
+          </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    -->
+      </div>
+
+    </nav>
+	<!-- Header Ends -->
+
+	<div class="container-fluid">
+    {{{body}}}
+	</div>
+
+  </body>
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+	
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+	
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+	<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.7/handlebars.js"></script>
+
+	
+ 	<!--Settings Modal -->
+	<script id="modalTemplate" type="text/x-handlebars-template">
+		<!--<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+				 {{titles}}
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+		</div>-->
+	</script>
+	<!--Setting Modal Ends -->
+
+
+	<!--Category DowpDown  -->
+	<script id="categoryTemplate" type="text/x-custom-template">
+
+		
+	
+      
+    
+		
+     
+	</script>
+	<!--Category DowpDown Ends -->	
+
+	<script>
+
+	
+	//var tableTemplate = Handlebars.compile($("#tableTemplate").html());
+	//var settingsModalTemplate = Handlebars.compile($("#modalTemplate").html());
+	var categoryTemplate = $("#categoryTemplate").html();
+	
+
+	var table;
+	var destroyFlag = true;
+
+	var showSettingsModal = function(){
+		//var modalHtml    = settingsModalTemplate({'titles':'Gourav'});
+		//$('#settingsModal').html(modalHtml);
+		//$('#settingsModal').modal('show');
+	}
+
+	$('#loadingDiv').hide();
+	
+	var loadTableData = function(thisElement){
+		$('#loadingDiv').show();
+
+		var tableHeader =[];
+		var tableData   =[];
+		
+		
+
+		
+		$.get("tableData/"+thisElement.dataset.tablename, function( data ) {
+
+			if(table){
+			//	table.destroy();
+				$('#example').dataTable().fnDestroy();
+			}
+
+			console.log(data);
+
+			if(data.status=='success'){
+				
+
+				//Products Table Rendering
+				table = $('#example').DataTable( {
+
+					"paging": true,
+					"data": data.data,
+					"columns": data.columns,
+					//"bDestroy": destroyFlag,
+					"destroy": true,
+					"scrollX": true,
+					"orderable": true,
+					"columnDefs": [
+					{
+						
+						"render": function ( data, type, row ) {
+						return '<div><div class="zoomOverLay d-none "><i class="zoomFont fa fa-search-plus" aria-hidden="true"></i></div>'+data.substring(0,data.indexOf('/>'))+' class="productImage" width="147px" /></div>';
+						},
+						"targets": 0
+					}]
+					
+
+
+					});
+
+				assignEventHandlers();
+				//Products Table Rendering Ends
+				
+
+
+				//Category Dropdown Populating
+				/*$('#categorySelect').addClass('d-block');
+				var categoryHTML = '<option value="all">All</option>';
+				data.category.forEach(function(value){
+					categoryHTML += '<option value="'+value.CategoryId+'">'+value.CategoryName+'</option>';
+				});
+				$('#categoryOptions').html(categoryHTML);
+				*/
+				//Category Dropdown Populating Ends
+
+
+			}else{
+
+			}
+
+			
+			//table.destroy();
+			$('#loadingDiv').hide();
+		});
+		
+
+	}//loadTableData
+
+var assignEventHandlers = function(){
+	
+	$('.productImage').mouseover(function(){
+		console.log(this.src);
+		//$(this).closest( ".zoomOverLay" ).addClass('d-block');
+	});
+
+	$('.productImage').click(function(){
+		console.log(this.src);
+		$('#imageBodyModal').html('<img src="'+this.src+'"></img>');
+		$('#imageModal').modal('show')
+	});
+}
+
+//http://krasimirtsonev.com/blog/article/Javascript-template-engine-in-just-20-line
+var TemplateEngine = function(html, options) {
+    var re = /<%([^%>]+)?%>/g, reExp = /(^( )?(if|for|else|switch|case|break|{|}))(.*)?/g, code = 'var r=[];\n', cursor = 0, match;
+    var add = function(line, js) {
+        js? (code += line.match(reExp) ? line + '\n' : 'r.push(' + line + ');\n') :
+            (code += line != '' ? 'r.push("' + line.replace(/"/g, '\\"') + '");\n' : '');
+        return add;
+    }
+    while(match = re.exec(html)) {
+        add(html.slice(cursor, match.index))(match[1], true);
+        cursor = match.index + match[0].length;
+    }
+    add(html.substr(cursor, html.length - cursor));
+    code += 'return r.join("");';
+    return new Function(code.replace(/[\r\t\n]/g, '')).apply(options);
+}
+	</script>
+</html>
