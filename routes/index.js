@@ -84,6 +84,40 @@ router.get('/tableData/:tableName', function(req, serverRes, next) {
 
 });
 
+//Adding Products
+router.post('/addProducts', function(req, serverRes, next) {
+	console.log(req.body.productImage);
+	console.log(req.body.productName);
+	console.log(req.body.unitsInStock);
+	console.log(req.body.costPrice);
+	console.log(req.body.unitPrice);
+	console.log(req.body.discount);
+	console.log(req.body.category);
+
+
+pool.connect((err, client, done) => {
+if (err) throw err
+	client.query('INSERT into "Products" ("Picture", "ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId") VALUES($1, $2, $3,$4,$5,$6,$7) RETURNING "ProductId"', 
+	[req.body.productImage,req.body.productName,Number(req.body.unitsInStock),Number(req.body.costPrice),Number(req.body.unitPrice),
+	Number(req.body.discount),req.body.category], 
+
+
+	function(err, result) {
+		    if (err) {
+		        console.log(err);
+		    } else {
+		        console.log('row inserted with id: ' + result.rows[0].ProductId);
+		    }
+
+		  done();
+	});//client.query  
+});
+
+
+});
+
+//Adding Products Ends
+
 
 var CreateTableStructure = {
   tableHeaders:[],

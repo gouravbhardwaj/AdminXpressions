@@ -111,9 +111,62 @@
 
 
 	<!--Category DowpDown  -->
-	<script id="categoryTemplate" type="text/x-custom-template">
+	<script id="createProducts" type="text/x-custom-template">
 
-		
+		<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="productImage">ProductImage</label>
+    <input type="text" name="productImage" class="form-control" id="productImage" aria-describedby="Product Image" placeholder="Image Path">
+   
+  </div>
+
+   <div class="form-group col-lg-6">
+    <label for="productName">ProductName</label>
+    <input type="text" name="productName" class="form-control" id="productName" aria-describedby="Product Name" placeholder="Product Name">
+   
+  </div>
+</div>
+
+<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="unitsInStock">UnitsInStock</label>
+    <input type="number" name="unitsInStock" class="form-control" id="unitsInStock" aria-describedby="UnitsInStock" placeholder="Units In Stock">
+   
+  </div>
+
+   <div class="form-group col-lg-6">
+    <label for="costPrice">CostPrice</label>
+    <input type="number" name="costPrice" class="form-control" id="costPrice" aria-describedby="Cost Price" placeholder="Cost Price">
+   
+  </div>
+</div>
+
+ 
+<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="unitPrice">UnitPrice</label>
+    <input type="number" name="unitPrice" class="form-control" id="unitPrice" aria-describedby="unitPrice" placeholder="Units Price">
+   
+  </div>
+
+   <div class="form-group col-lg-6">
+    <label for="discount">Discount</label>
+    <input type="number" name="discount" class="form-control" id="discount" aria-describedby="Discount" placeholder="Discount">
+   
+  </div>
+</div>
+
+<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="categoryOptions">Category</label>
+    <select name="category" class="form-control" id="categoryOptions">
+     
+    </select>
+   
+  </div>
+
+  
+</div>
 	
       
     
@@ -124,7 +177,7 @@
 
 	<script>
 
-	
+
 	//var tableTemplate = Handlebars.compile($("#tableTemplate").html());
 	//var settingsModalTemplate = Handlebars.compile($("#modalTemplate").html());
 	var categoryTemplate = $("#categoryTemplate").html();
@@ -132,6 +185,27 @@
 
 	var table;
 	var destroyFlag = true;
+	var categories;
+
+
+	var addProducts = function(){
+		//Create a Form for Creating Products
+		var categoryHTML = '';
+
+		$('#modalContent').html($('#createProducts').html());
+
+		if(categories){
+			categories.forEach(function(value){
+				categoryHTML += '<option value="'+value.CategoryId+'">'+value.CategoryName+'</option>';
+			});
+
+			$('#categoryOptions').html(categoryHTML);
+		}
+		
+
+		
+		$('#myModal').modal('show');
+	}
 
 	var showSettingsModal = function(){
 		//var modalHtml    = settingsModalTemplate({'titles':'Gourav'});
@@ -149,7 +223,7 @@
 		
 		
 
-		
+		$('#products').addClass('d-block');
 		$.get("tableData/"+thisElement.dataset.tablename, function( data ) {
 
 			if(table){
@@ -191,13 +265,11 @@
 
 
 				//Category Dropdown Populating
-				/*$('#categorySelect').addClass('d-block');
-				var categoryHTML = '<option value="all">All</option>';
-				data.category.forEach(function(value){
-					categoryHTML += '<option value="'+value.CategoryId+'">'+value.CategoryName+'</option>';
-				});
-				$('#categoryOptions').html(categoryHTML);
-				*/
+				//$('#categorySelect').addClass('d-block');
+
+				categories = data.category;
+				
+				
 				//Category Dropdown Populating Ends
 
 
