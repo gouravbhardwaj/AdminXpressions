@@ -116,13 +116,13 @@
 		<div class="row"> 
   <div class="form-group col-lg-6">
     <label for="productImage">ProductImage</label>
-    <input type="text" name="productImage" class="form-control" id="productImage" aria-describedby="Product Image" placeholder="Image Path">
+    <input type="text" name="productImage" class="form-control" value="%Picture%" id="productImage" aria-describedby="Product Image" placeholder="Image Path">
    
   </div>
 
    <div class="form-group col-lg-6">
     <label for="productName">ProductName</label>
-    <input type="text" name="productName" class="form-control" id="productName" aria-describedby="Product Name" placeholder="Product Name">
+    <input type="text" name="productName" class="form-control" value="%ProductName%" id="productName" aria-describedby="Product Name" placeholder="Product Name">
    
   </div>
 </div>
@@ -130,13 +130,13 @@
 <div class="row"> 
   <div class="form-group col-lg-6">
     <label for="unitsInStock">UnitsInStock</label>
-    <input type="number" name="unitsInStock" class="form-control" id="unitsInStock" aria-describedby="UnitsInStock" placeholder="Units In Stock">
+    <input type="number" name="unitsInStock" class="form-control" value="%UnitsInStock%" id="unitsInStock" aria-describedby="UnitsInStock" placeholder="Units In Stock">
    
   </div>
 
    <div class="form-group col-lg-6">
     <label for="costPrice">CostPrice</label>
-    <input type="number" name="costPrice" class="form-control" id="costPrice" aria-describedby="Cost Price" placeholder="Cost Price">
+    <input type="number" name="costPrice" class="form-control" value="%CostPrice%" id="costPrice" aria-describedby="Cost Price" placeholder="Cost Price">
    
   </div>
 </div>
@@ -145,13 +145,13 @@
 <div class="row"> 
   <div class="form-group col-lg-6">
     <label for="unitPrice">UnitPrice</label>
-    <input type="number" name="unitPrice" class="form-control" id="unitPrice" aria-describedby="unitPrice" placeholder="Units Price">
+    <input type="number" name="unitPrice" class="form-control" value="%UnitPrice%" id="unitPrice" aria-describedby="unitPrice" placeholder="Units Price">
    
   </div>
 
    <div class="form-group col-lg-6">
     <label for="discount">Discount</label>
-    <input type="number" name="discount" class="form-control" id="discount" aria-describedby="Discount" placeholder="Discount">
+    <input type="number" name="discount" class="form-control" value="%Discount%" id="discount" aria-describedby="Discount" placeholder="Discount">
    
   </div>
 </div>
@@ -165,6 +165,48 @@
    
   </div>
 
+   <div class="form-group col-lg-6">
+    <label for="materialOptions">Material</label>
+    <select name="material" class="form-control" id="materialOptions">
+     	<option value="Ceremic">Ceremic</option>
+     	<option value="Glass">Glass</option>
+     	<option value="Stone">Stone</option>
+     	<option value="Board">Board</option>
+     	<option value="Acrylic">Acrylic</option>
+     	<option value="Fabric">Fabric</option>
+    </select>
+   
+  </div>
+  
+</div>
+
+<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="productAvailable">ProductAvailable</label>
+    <input type="checkbox" name="productAvailable" id="productAvailable"/>
+   
+  </div>
+
+   <div class="form-group col-lg-6">
+    <label for="discountAvailable">DiscountAvailable</label>
+   	<input type="checkbox" name="discountAvailable" id="discountAvailable"/>
+   
+  </div>
+  
+</div>
+
+<div class="row"> 
+  <div class="form-group col-lg-6">
+    <label for="featured">Featured</label>
+    <input type="checkbox" name="featured" id="featured"/>
+   
+  </div>
+
+   <div class="form-group col-lg-6">
+    <label for="latest">Latest</label>
+   	<input type="checkbox" name="latest" id="latest"/>
+   
+  </div>
   
 </div>
 	
@@ -250,9 +292,16 @@
 					{
 						
 						"render": function ( data, type, row ) {
-						return '<div><div class="zoomOverLay d-none "><i class="zoomFont fa fa-search-plus" aria-hidden="true"></i></div>'+data.substring(0,data.indexOf('/>'))+' class="productImage" width="147px" /></div>';
+						return '<div><button data-Id="'+data+'" class="editProduct">Edit</Button> | <Button class="deleteProduct" data-Id="'+data+'">Delete</Button> </div>';
 						},
 						"targets": 0
+					},
+					{
+						
+						"render": function ( data, type, row ) {
+						return '<div><div class="zoomOverLay d-none "><i class="zoomFont fa fa-search-plus" aria-hidden="true"></i></div>'+data.substring(0,data.indexOf('/>'))+' class="productImage" width="147px" /></div>';
+						},
+						"targets": 1
 					}]
 					
 
@@ -296,6 +345,23 @@ var assignEventHandlers = function(){
 		console.log(this.src);
 		$('#imageBodyModal').html('<img src="'+this.src+'"></img>');
 		$('#imageModal').modal('show')
+	});
+
+	$('.editProduct').click(function(){
+		
+		getProductDetail(this.dataset.id);
+	});
+
+	$('.deleteProduct').click(function(){
+		
+		//deleteProduct(this.dataset.id);
+	});
+}
+
+
+var getProductDetail = function(productId){
+	$.post("/getProductData",{ productId:productId} ,function( data ) {
+		console.log(data);
 	});
 }
 

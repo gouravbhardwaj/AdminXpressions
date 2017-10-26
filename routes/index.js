@@ -86,20 +86,23 @@ router.get('/tableData/:tableName', function(req, serverRes, next) {
 
 //Adding Products
 router.post('/addProducts', function(req, serverRes, next) {
-	console.log(req.body.productImage);
-	console.log(req.body.productName);
-	console.log(req.body.unitsInStock);
-	console.log(req.body.costPrice);
-	console.log(req.body.unitPrice);
-	console.log(req.body.discount);
-	console.log(req.body.category);
-
 
 pool.connect((err, client, done) => {
 if (err) throw err
-	client.query('INSERT into "Products" ("Picture", "ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId") VALUES($1, $2, $3,$4,$5,$6,$7) RETURNING "ProductId"', 
-	[req.body.productImage,req.body.productName,Number(req.body.unitsInStock),Number(req.body.costPrice),Number(req.body.unitPrice),
-	Number(req.body.discount),req.body.category], 
+	
+	client.query('INSERT into "Products" ("Picture", "ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId","ProductAvailable","DiscountAvailable","Featured","Latest","Material") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING "ProductId"', 
+	[req.body.productImage,
+	req.body.productName,
+	Number(req.body.unitsInStock),
+	Number(req.body.costPrice),
+	Number(req.body.unitPrice),
+	Number(req.body.discount),
+	req.body.category,
+	(req.body.productAvailable == 'on')?true:false,
+	(req.body.discountAvailable == 'on')?true:false,
+	(req.body.featured == 'on')?true:false,
+	(req.body.latest == 'on')?true:false,
+	req.body.material], 
 
 
 	function(err, result) {
@@ -110,13 +113,38 @@ if (err) throw err
 		    }
 
 		  done();
-	});//client.query  
+	});//client.query 
+	
 });
 
 
 });
 
 //Adding Products Ends
+router.post('/getProductData', function(req, serverRes, next) {
+	console.log(req.body.productId);
+
+	pool.connect((err, client, done) => {
+	if (err) throw err
+		
+		client.query('SELECT "Picture","ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId","ProductAvailable","DiscountAvailable","Featured","Latest","Material" from "Products" WHERE "ProductId"=\''+req.body.productId+'\' Limit 1', 
+		
+		function(err, result) {
+			    if (err) {
+			        console.log(err);
+			    } else {
+			        console.log('result ' + result);
+
+			        serverRes.send({status:'success',product:result.row[0]});
+			    }
+
+			  done();
+		});//client.query 
+		
+	});
+
+
+});
 
 
 var CreateTableStructure = {
@@ -158,6 +186,7 @@ var CreateTableStructure = {
 			//CreateTableStructure.tableHeaders.push({ "title":value.column_name}); t01
 	  	});
 
+	  	CreateTableStructure.tableHeaders.push({ "title":""});//For Edit and Delete Button
 	  	CreateTableStructure.tableHeaders.push({ "title":"Picture"});
 	  	CreateTableStructure.tableHeaders.push({ "title":"ProductName"});
 	  	CreateTableStructure.tableHeaders.push({ "title":"UnitsInStock"});
@@ -178,7 +207,7 @@ var CreateTableStructure = {
 		console.log(CreateTableStructure.tableHeaders);
 
 		//client.query('SELECT * FROM "'+tableName+'"', (err, res) => { T01
-			client.query('SELECT p."Picture",p."ProductName",p."UnitsInStock",p."CostPrice", p."UnitPrice", p."Discount",p."UnitsOnOrder",c."CategoryName" FROM "Products" p,"Category" c WHERE c."CategoryId" = p."CategoryId" ', (err, res) => {
+			client.query('SELECT p."ProductId",p."Picture",p."ProductName",p."UnitsInStock",p."CostPrice", p."UnitPrice", p."Discount",p."UnitsOnOrder",c."CategoryName" FROM "Products" p,"Category" c WHERE c."CategoryId" = p."CategoryId" ', (err, res) => {
 			done()
 			
 			if (err) {
@@ -193,6 +222,7 @@ var CreateTableStructure = {
 
 			  	res.rows.forEach(function(value){
 			  	 tableRow=[];	
+			  	 //tableRow.push('Edit/Delete');
 					for (var key in value) {
 						// check if the property/key is defined in the object itself, not in parent
 
