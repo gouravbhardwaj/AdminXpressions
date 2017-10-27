@@ -168,7 +168,7 @@
    <div class="form-group col-lg-6">
     <label for="materialOptions">Material</label>
     <select name="material" class="form-control" id="materialOptions">
-     	<option value="Ceremic">Ceremic</option>
+     	<option value="Ceramic">Ceramic</option>
      	<option value="Glass">Glass</option>
      	<option value="Stone">Stone</option>
      	<option value="Board">Board</option>
@@ -234,7 +234,15 @@
 		//Create a Form for Creating Products
 		var categoryHTML = '';
 
-		$('#modalContent').html($('#createProducts').html());
+		var str = $('#createProducts').html()
+				.replace("%Picture%","")
+				.replace('%ProductName%',"")
+				.replace('%UnitsInStock%',"")
+				.replace('%CostPrice%',"")
+				.replace('%UnitPrice%',"")
+				.replace('%Discount%',"");
+
+		$('#modalContent').html(str);
 
 		if(categories){
 			categories.forEach(function(value){
@@ -247,6 +255,9 @@
 
 		
 		$('#myModal').modal('show');
+
+		$('#productForm').attr('action', '/addProducts'); 
+		
 	}
 	//addProducts
 
@@ -293,14 +304,14 @@
 					{
 						
 						"render": function ( data, type, row ) {
-						return '<div><button data-Id="'+data+'" class="editProduct">Edit</Button> | <Button class="deleteProduct" data-Id="'+data+'">Delete</Button> </div>';
+						return '<div><button data-Id="'+data+'" onclick="getProductDetail(\''+data+'\')" class="editProduct">Edit</Button> | <Button class="deleteProduct" data-Id="'+data+'">Delete</Button> </div>';
 						},
 						"targets": 0
 					},
 					{
 						
 						"render": function ( data, type, row ) {
-						return '<div><div class="zoomOverLay d-none "><i class="zoomFont fa fa-search-plus" aria-hidden="true"></i></div>'+data.substring(0,data.indexOf('/>'))+' class="productImage" width="147px" /></div>';
+						return '<div><div class="zoomOverLay d-none "><i class="zoomFont fa fa-search-plus" aria-hidden="true"></i></div>'+data.substring(0,data.indexOf('/>'))+' onclick="zoomImage(this)" class="productImage" width="147px" /></div>';
 						},
 						"targets": 1
 					}]
@@ -337,32 +348,66 @@
 
 var assignEventHandlers = function(){
 	
-	$('.productImage').mouseover(function(){
-		console.log(this.src);
-		//$(this).closest( ".zoomOverLay" ).addClass('d-block');
-	});
+	
 
-	$('.productImage').click(function(){
+	/*$('.productImage').click(function(){
 		console.log(this.src);
-		$('#imageBodyModal').html('<img src="'+this.src+'"></img>');
-		$('#imageModal').modal('show')
+		
 	});
 
 	$('.editProduct').click(function(){
 		
 		getProductDetail(this.dataset.id);
-	});
+	});*/
 
-	$('.deleteProduct').click(function(){
-		
-		//deleteProduct(this.dataset.id);
-	});
+	
+}
+
+var zoomImage= function(thisElement){
+		$('#imageBodyModal').html('<img src="'+thisElement.src+'"></img>');
+		$('#imageModal').modal('show');
 }
 
 
 var getProductDetail = function(productId){
+	var categoryHTML = '';
+
 	$.post("/getProductData",{ productId:productId} ,function( data ) {
 		console.log(data);
+
+		var str = $('#createProducts').html()
+				.replace("%Picture%",data.product.Picture)
+				.replace('%ProductName%',data.product.ProductName)
+				.replace('%UnitsInStock%',data.product.UnitsInStock)
+				.replace('%CostPrice%',data.product.CostPrice)
+				.replace('%UnitPrice%',data.product.UnitPrice)
+				.replace('%Discount%',data.product.Discount);
+
+		$('#modalContent').html(str);
+
+		if(categories){
+			categories.forEach(function(value){
+				categoryHTML += '<option value="'+value.CategoryId+'">'+value.CategoryName+'</option>';
+			});
+
+			$('#categoryOptions').html(categoryHTML);
+		}
+
+		$('#categoryOptions').val(data.product.CategoryId);
+		$('#materialOptions').val(data.product.Material);
+
+
+		$("#productAvailable").prop("checked", data.product.ProductAvailable);
+		$("#discountAvailable").prop("checked", data.product.DiscountAvailable);
+		$("#featured").prop("checked", data.product.Featured);
+		$("#latest").prop("checked", data.product.Latest);
+
+
+
+		$('#myModal').modal('show');
+
+		$('#productForm').append('<input type="text" hidden name="productId" value="'+data.product.ProductId+'">');
+		$('#productForm').attr('action', '/editProduct'); //addProducts
 	});
 }
 

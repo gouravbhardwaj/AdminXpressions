@@ -3,15 +3,6 @@ var router = express.Router();
 
 var  { Pool, Client }   = require('pg');
 
-var cloudinary = require('cloudinary');
-
-
-cloudinary.config({ 
-  cloud_name: 'hrmqah2hd', 
-  api_key: '595616719544321', 
-  api_secret: 'hxdXfpQSRcUlIechhkY944IAVBM' 
-});
-
 // Get a Postgres client from the connection pool
 var pool = new Pool({
 	//connectionString: connectionString
@@ -24,8 +15,9 @@ var pool = new Pool({
 	
 });
 
+//var connectionString = process.env.DATABASE_URL || 'postgres://imqmgjnybedxon:5f95ca15ec9ac46554439ee8a888488c1d4d40b047fa5292eb5fe09865413ae0@ec2-107-20-255-96.compute-1.amazonaws.com:5432/d3aucv4f9mnpes';
 
-var connectionString = process.env.DATABASE_URL || 'postgres://imqmgjnybedxon:5f95ca15ec9ac46554439ee8a888488c1d4d40b047fa5292eb5fe09865413ae0@ec2-107-20-255-96.compute-1.amazonaws.com:5432/d3aucv4f9mnpes';
+var Products = require('../Models/Products');
 
 /* GET home page. */
 router.get('/', function(req, serverRes, next) {
@@ -54,211 +46,39 @@ router.get('/', function(req, serverRes, next) {
 
 //Get Selected Table Data
 router.get('/tableData/:tableName', function(req, serverRes, next) {
-	console.log('Table Name : '+req.params.tableName);
 	
-	pool.connect((err, client, done) => {
-	if (err) throw err
-		client.query('SELECT * FROM information_schema.columns WHERE "table_schema" = \'public\' AND table_name   = \''+req.params.tableName+'\'', (err, res) => {
-			done()
+	console.log(Products);
+	Products.init();
+	//Products.getCategories();
+	Products.getTableHeader();
+	Products.getAllProducts(serverRes);
 			
-
-			if (err) {
-			  console.log('Error : '+err.stack)
-			  return serverRes.send({status:'fail',message:err});
-			} else {
-
-				if(res.rows.length>0){
-					//console.log(res.rows[0])
-					CreateTableStructure.init();
-					CreateTableStructure.getCategories();
-					CreateTableStructure.getTableHeader(res.rows);
-					CreateTableStructure.getTableData(req.params.tableName,serverRes);
-					
-				}else{
-					return serverRes.send({status:'fail',message:'No Data to Return'});
-				}
-
-			}
-		})
-	})//pool.connect
 
 });
 
 //Adding Products
 router.post('/addProducts', function(req, serverRes, next) {
 
-pool.connect((err, client, done) => {
-if (err) throw err
-	
-	client.query('INSERT into "Products" ("Picture", "ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId","ProductAvailable","DiscountAvailable","Featured","Latest","Material") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING "ProductId"', 
-	[req.body.productImage,
-	req.body.productName,
-	Number(req.body.unitsInStock),
-	Number(req.body.costPrice),
-	Number(req.body.unitPrice),
-	Number(req.body.discount),
-	req.body.category,
-	(req.body.productAvailable == 'on')?true:false,
-	(req.body.discountAvailable == 'on')?true:false,
-	(req.body.featured == 'on')?true:false,
-	(req.body.latest == 'on')?true:false,
-	req.body.material], 
+	Products.insertProduct(req);
 
 
-	function(err, result) {
-		    if (err) {
-		        console.log(err);
-		    } else {
-		        console.log('row inserted with id: ' + result.rows[0].ProductId);
-		    }
-
-		  done();
-	});//client.query 
-	
 });
 
+
+
+//Update Products
+router.post('/editProduct', function(req, serverRes, next) {
+
+	Products.updateProduct(req);
 
 });
 
 //Adding Products Ends
 router.post('/getProductData', function(req, serverRes, next) {
-	console.log(req.body.productId);
-
-	pool.connect((err, client, done) => {
-	if (err) throw err
-		
-		client.query('SELECT "Picture","ProductName", "UnitsInStock", "CostPrice","UnitPrice","Discount","CategoryId","ProductAvailable","DiscountAvailable","Featured","Latest","Material" from "Products" WHERE "ProductId"=\''+req.body.productId+'\' Limit 1', 
-		
-		function(err, result) {
-			    if (err) {
-			        console.log(err);
-			    } else {
-			        console.log('result ' + result);
-
-			        serverRes.send({status:'success',product:result.row[0]});
-			    }
-
-			  done();
-		});//client.query 
-		
-	});
-
+	
+   Products.getSelectedProduct(req,serverRes);
 
 });
 
-
-var CreateTableStructure = {
-  tableHeaders:[],
-  tableData:[],
-  categories:[],
-  init : function(){
-  	this.tableHeaders=[];
-  	this.tableData=[];
-  },
-  getCategories : function(){
-		pool.connect((err, client, done) => {
-		if (err) throw err
-		client.query('SELECT "CategoryId","CategoryName" FROM "Category" Limit 100', (err, res) => {
-		done()
-
-
-		if (err) {
-		  console.log('Error : '+err.stack)
-		  
-		} else {
-			console.log(res);
-			if(res.rows.length>0){
-				//console.log(res.rows[0])
-				
-				CreateTableStructure.categories=res.rows;
-				
-				
-			}
-
-		}
-		})
-		})//pool.connect
-  },
-  getTableHeader: function(headerDetails){
-  	 	console.log('Inside getTableHeader : ')
-	  	headerDetails.forEach(function(value,index){
-	  		console.log('###columns : '+value.column_name);
-			//CreateTableStructure.tableHeaders.push({ "title":value.column_name}); t01
-	  	});
-
-	  	CreateTableStructure.tableHeaders.push({ "title":""});//For Edit and Delete Button
-	  	CreateTableStructure.tableHeaders.push({ "title":"Picture"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"ProductName"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"UnitsInStock"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"CostPrice"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"UnitPrice"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"Discount"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"UnitsOnOrder"});
-	  	CreateTableStructure.tableHeaders.push({ "title":"CategoryName"});
-	
-  },
-
-  getTableData: function(tableName,serverRes){
-	console.log('Inside getTableData : ')
-
-	pool.connect((err, client, done) => {
-	if (err) throw err
-
-		console.log(CreateTableStructure.tableHeaders);
-
-		//client.query('SELECT * FROM "'+tableName+'"', (err, res) => { T01
-			client.query('SELECT p."ProductId",p."Picture",p."ProductName",p."UnitsInStock",p."CostPrice", p."UnitPrice", p."Discount",p."UnitsOnOrder",c."CategoryName" FROM "Products" p,"Category" c WHERE c."CategoryId" = p."CategoryId" ', (err, res) => {
-			done()
-			
-			if (err) {
-			  console.log('Error : '+err.stack)
-			  return serverRes.send({status:'fail',message:err});
-			} else {
-			  
-			  if(res.rows.length>0){
-			  	var tableRow=[];
-
-			  	console.log(res.rows[0]);
-
-			  	res.rows.forEach(function(value){
-			  	 tableRow=[];	
-			  	 //tableRow.push('Edit/Delete');
-					for (var key in value) {
-						// check if the property/key is defined in the object itself, not in parent
-
-
-						if (value.hasOwnProperty(key)) { 
-
-							if(key.indexOf('Image')>=0 || key.indexOf('Picture')>=0){
-
-								console.log('image')
-								tableRow.push(cloudinary.image(value[key])); 
-							}else{
-								tableRow.push(value[key]);   
-							}
-
-							console.log('key : '+key+' cell values : '+value[key]);
-							      
-							
-						}
-					}
-
-					CreateTableStructure.tableData.push(tableRow);
-			  	});
-
-			  	
-			  	return serverRes.send({status:'success',category:CreateTableStructure.categories ,columns: CreateTableStructure.tableHeaders,data:CreateTableStructure.tableData});
-
-			  }else{
-			  	return serverRes.send({status:'fail',message:'No Data to Return'});
-			  }
-			  
-			}
-		})
-	})//pool.connect
-
-  }
-
-}
 
 module.exports = router;
