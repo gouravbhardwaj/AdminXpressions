@@ -19,8 +19,11 @@ var pool = new Pool({
 
 var Products = require('../Models/Products');
 
-/* GET home page. */
-router.get('/', function(req, serverRes, next) {
+
+
+
+/* GET home page. Previous router.get('/')*/
+router.get('/getProducts', function(req, serverRes, next) {
 
 	//Getting Tables Name
 	pool.connect((err, client, done) => {
@@ -43,6 +46,7 @@ router.get('/', function(req, serverRes, next) {
 
  	//res.render('index', { title: 'Xpressions Admin' });
 });
+
 
 //Get Selected Table Data
 router.get('/tableData/:tableName', function(req, serverRes, next) {
