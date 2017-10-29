@@ -23,7 +23,7 @@ var Products = require('../Models/Products');
 
 
 /* GET home page. Previous router.get('/')*/
-router.get('/getProducts', function(req, serverRes, next) {
+router.get('/', function(req, serverRes, next) {
 
 	//Getting Tables Name
 	pool.connect((err, client, done) => {
