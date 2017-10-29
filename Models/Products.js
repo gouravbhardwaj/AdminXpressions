@@ -43,7 +43,7 @@ var Products = {
 					//console.log(Products.tableHeaders);
 
 					//client.query('SELECT * FROM "'+tableName+'"', (err, res) => { T01
-						client.query('SELECT p."ProductId",p."Picture",p."ProductName",p."UnitsInStock",p."CostPrice", p."UnitPrice", p."Discount",p."UnitsOnOrder",c."CategoryName" FROM "Products" p,"Category" c WHERE c."CategoryId" = p."CategoryId" ', (err, res) => {
+						client.query('SELECT p."ProductId",p."Picture",p."ProductName",p."UnitsInStock",p."CostPrice", p."UnitPrice", p."Discount",c."CategoryName" FROM "Products" p,"Category" c WHERE c."CategoryId" = p."CategoryId" ', (err, res) => {
 						done()
 						
 						if (err) {
@@ -159,7 +159,7 @@ var Products = {
 			});
 
 	},
-	updateProduct : function(req){
+	updateProduct : function(req,callBack){
 			pool.connect((err, client, done) => {
 				if (err) throw err
 
@@ -202,6 +202,8 @@ console.log('returned  '+dataSanity(req.body.material,'string'));
 					    console.log(err);
 					} else {
 					    console.log('edited inserted with id: ' + result);
+
+					    callBack();
 					}
 
 					done();
@@ -251,7 +253,7 @@ console.log('returned  '+dataSanity(req.body.material,'string'));
 	  	Products.tableHeaders.push({ "title":"CostPrice"});
 	  	Products.tableHeaders.push({ "title":"UnitPrice"});
 	  	Products.tableHeaders.push({ "title":"Discount"});
-	  	Products.tableHeaders.push({ "title":"UnitsOnOrder"});
+	  	//Products.tableHeaders.push({ "title":"UnitsOnOrder"});
 	  	Products.tableHeaders.push({ "title":"CategoryName"});
 	}
 

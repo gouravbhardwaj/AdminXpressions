@@ -69,7 +69,12 @@ router.post('/addProducts', function(req, serverRes, next) {
 //Update Products
 router.post('/editProduct', function(req, serverRes, next) {
 
-	Products.updateProduct(req);
+	Products.updateProduct(req,function(){
+			
+			Products.init();
+			Products.getTableHeader();
+			Products.getAllProducts(serverRes);
+	});
 
 });
 
